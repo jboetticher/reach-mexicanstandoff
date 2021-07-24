@@ -75,6 +75,10 @@ export const main = Reach.App(() => {
     closeTo(A, informTimeout);
   }
 
+  each([A, B, C], () => {
+    interact.log("Play");
+  });
+
   // you can make a while loop if you figure out how to make a proper timeout
   //invariant(balance() >= 0);
   //while (desireToPlayAgain) {

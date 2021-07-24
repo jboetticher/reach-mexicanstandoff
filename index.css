@@ -1,0 +1,67 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    margin: 0;
+    font-family: 'Press Start 2P', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: url("https://promo.dictatergame.com/images/mexstandoff/sandy-desert.png");
+    line-height: 1.2;
+}
+
+#root {
+    width: 100%;
+}
+
+.cowboy {
+    width: 250px;
+    height: 250px;
+    transition: transition 250ms;
+}
+
+.cowboy:hover {
+    transform: scale(1.1);
+}
+
+h1 {
+    font-size: 48px;
+    color: crimson;
+    text-shadow: 2px 2px rgba(158, 76, 0, 0.5), 0 0 10px black;
+}
+
+.info-panel {
+    position: absolute;
+    width: 450px;
+    height: 100%;
+    background-color: rgba(158, 76, 0, 0.8);
+    bottom: 0%;
+    right: 0%;
+    border: 4px solid rgb(158, 76, 0);
+    padding-right: 16px;
+    padding-left: 16px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+button {
+    color: crimson;
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 28px;
+    background-color: rgba(0, 0, 0, 0);
+    text-shadow: 2px 2px rgba(158, 76, 0, 0.5), 0 0 10px black;
+    margin-left: 4px;
+    margin-right: 4px;
+    border: none;
+}
+button:hover {
+    transform: scale(1.1);
+}
+
+li {
+    margin-bottom: 8px;
+}
