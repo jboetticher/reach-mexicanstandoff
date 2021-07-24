@@ -8,7 +8,7 @@ const PLAYERCNT = 3;
 const PlayerInterface = {
   ...hasRandom,
   getPlayerToShoot: Fun([], UInt),
-  seeOutcome: Fun([Array(UInt, 3)], Null),
+  seeOutcome: Fun([Array(UInt, PLAYERCNT * 2)], Null),
   informTimeout: Fun([], Null),
   getDonationAddress: Address,
   log: Fun(true, Null)
@@ -69,12 +69,11 @@ export const main = Reach.App(() => {
       closeTo(B, informTimeout);
     });
 
-  /*
   if (donationA != donationB || donationA != donationC) {
+    // TODO: make a better timeout, because it should give to both A and B and C
     commit();
-    exit();
+    closeTo(A, informTimeout);
   }
-  */
 
   // you can make a while loop if you figure out how to make a proper timeout
   //invariant(balance() >= 0);
@@ -138,15 +137,21 @@ export const main = Reach.App(() => {
   const bWon = (enemyB % PLAYERCNT) == 1 ? 0 : (enemyA % PLAYERCNT == 1 || enemyC % PLAYERCNT == 1) ? 0 : 1;
   const cWon = (enemyC % PLAYERCNT) == 2 ? 0 : (enemyA % PLAYERCNT == 2 || enemyB % PLAYERCNT == 2) ? 0 : 1;
   const winnerTotal = aWon + bWon + cWon;
+
   assert(aWon <= 1);
   assert(bWon <= 1);
   assert(cWon <= 1);
   assert(winnerTotal < 3);
-  transfer(aWon == 0 ? 0 : (bWon == 0 && cWon == 0) ? wager * 3 : wager).to(A);
-  transfer(bWon == 0 ? 0 : (aWon == 0 && cWon == 0) ? wager * 3 : wager).to(B);
-  transfer(cWon == 0 ? 0 : (aWon == 0 && bWon == 0) ? wager * 3 : wager).to(C);
-  transfer(winnerTotal == 1 ? 0 : winnerTotal == 2 ? wager : wager * 3).to(donationA);
+
+  transfer(aWon == 0 ? 0 : (bWon == 0 && cWon == 0) ? wager * 2 : wager).to(A);
+  transfer(bWon == 0 ? 0 : (aWon == 0 && cWon == 0) ? wager * 2 : wager).to(B);
+  transfer(cWon == 0 ? 0 : (aWon == 0 && bWon == 0) ? wager * 2 : wager).to(C);
+  transfer(winnerTotal == 0 ? wager * 3 : wager).to(donationA);
   // }
+
+  each([A, B, C], () => {
+    interact.seeOutcome(array(UInt, [ aWon, enemyA, bWon, enemyB, cWon, enemyC ]));
+  });
 
   assert(balance() == 0);
   commit();
