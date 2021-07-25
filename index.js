@@ -342,7 +342,7 @@ let EndingModal = props => {
   }
 
   let endingText = "Looks like you aren't walking away this time...";
-  if (outcome?.[props.user * 2]) {
+  if (outcome?.[props.user * 2] == 1) {
     if (totalWinners == 1) {
       endingText = "Yeehaw! The true desperado emerges victorious.";
     }
@@ -353,7 +353,7 @@ let EndingModal = props => {
 
   return (!props.enabled ? <></> :
     <div style={{ position: "absolute", top: '0', height: "100%", width: "100%", backgroundColor: "rgba(1, 1, 1, .8)" }}>\
-      <h3 style={{ textAlign: "center", marginTop: "250px", color: "crimson" }}>{endingText}</h3>
+      <h3 style={{ textAlign: "center", marginTop: "175px", color: "crimson" }}>{endingText}</h3>
       <div class="d-flex" style={{ justifyContent: "center" }}>
         <div class="final-box">
           <p>{user == 0 ? "You" : "Player 1"}</p>
