@@ -1,6 +1,7 @@
 # Mexican Standoff - Reach
 This is a game made in reach, where three players gamble to see if they can win in a Mexcan Standoff.  
-You should be familiar with Reach before attempting to run it. [Here](https://docs.reach.sh/tut-1.html) are requirements for running reach programs.
+You should be familiar with Reach before attempting to run it. [Here](https://docs.reach.sh/tut-1.html) are requirements for running reach programs.  
+Follow me on [twitter](https://twitter.com/jlboetticher) if you want updates / contact me.
 
 ## Running
 Use `./reach react` to run the program.

@@ -227,7 +227,7 @@ let AppView = props => {
             <h3 style={{ flexGrow: 1, textAlign: 'center' }}>Info</h3>
           </span>
           <p>This is a blockchain game made on Algorand.</p>
-          <p>Adblocker may block images.</p>
+          <a href="https://github.com/jboetticher/reach-mexicanstandoff#readme" target="_blank">Troubleshoot + Extra Info</a>
           <p>Rules:</p>
           <ul>
             <li>3 players pay 1 ALGO each.</li>
@@ -237,7 +237,6 @@ let AppView = props => {
             <li>3 Players Die: no ALGO is given to players.</li>
             <li>All ALGO left over is automatically donated to charity.</li>
           </ul>
-          <p>Inactivity will eventually result in either returning funds or automatic donation.</p>
           {props.connected ? <></> : <>
             <button
               style={{ display: "flex", marginRight: "auto", marginLeft: "auto" }}
