@@ -6,6 +6,11 @@ Follow me on [twitter](https://twitter.com/jlboetticher) if you want updates / c
 ## Running
 Use `./reach react` to run the program.
 
+## Charity
+The charity that's being used is known as [Potato Coin](https://twitter.com/PotatoCoins). It was chosen due to convenience on the algorand network, 
+and as of writing it is currently still pending a nonprofit status. Permission was recieved to use their organization within the program. Please 
+contact me if you would like to be added as a charity. You must have an Algorand address to donate to.
+
 ## Notes
 - Adblocker may block images and sounds.
 - Inactivity of any party will result in either returning funds or automatic donation.
