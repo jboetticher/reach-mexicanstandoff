@@ -1,6 +1,1 @@
-{
-    "files.associations": {
-        "*.rsh": "javascript"
-    },
-    "git.ignoreLimitWarning": true
-}
+{"files.associations":{"*.rsh":"javascript"},"git.ignoreLimitWarning":true}

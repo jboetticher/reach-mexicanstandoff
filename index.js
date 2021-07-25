@@ -3,14 +3,12 @@ import React, { useState } from 'react';
 import './index.css';
 import * as backend from './build/index.main.mjs';
 import * as reach from '@reach-sh/stdlib/ETH';
-import firebase from 'firebase';
-import fbconfig from './fbconfig.json';
+import Chat from "./chat.js";
 
-//firebase.initializeApp(fbconfig);
-//firebase.analytics();
-//const db = firebase.firestore();
 const ACTIVEGAMES = "activegames";
 const cowboy1 = "https://promo.dictatergame.com/images/mexstandoff/cowboy1.gif";
+const tumbleweed1 = "https://promo.dictatergame.com/images/mexstandoff/tumbleweed1.gif";
+const tumbleweed2 = "https://promo.dictatergame.com/images/mexstandoff/tumbleweed2.gif";
 
 // TODO: turn on if algo
 //reach.setSignStrategy('AlgoSigner');
@@ -70,15 +68,6 @@ class Player extends React.Component {
     console.log("Connection String: ", ctcInfoStr);
 
     // need to send data to firebase once we set that up
-    /*
-    try {
-      db.collection(ACTIVEGAMES).add({
-        address: ctcInfoStr,
-        players: 1,
-        created: Date.now()
-      });
-    } catch { }
-    */
 
     this.setState({ status: <><div>Awaiting Players in Lobby:</div><div>{ctcInfoStr}</div></> });
 
@@ -164,28 +153,9 @@ class Player extends React.Component {
 let AppView = props => {
   const musicURL = "https://promo.dictatergame.com/images/mexstandoff/rattlesnakerailroad.mp3";
   let [infoMenu, setInfoMenu] = useState(true);
-  let [lobbies, setLobbies] = useState([]);
   let [enemy, setEnemy] = useState(0);
   let [modal, setModal] = useState(false);
   let [manual, setManual] = useState();
-
-  // gets all lobbies within the db
-  // TODO: move this into cloud functions
-  /*
-  db.collection(ACTIVEGAMES)
-    .where("created", ">", new Date() - 60 * 60 * 1000)
-    .get()
-    .then((querySnapshot) => {
-      var active = [];
-      querySnapshot.forEach((doc) => {
-        active.push(doc.data());
-      });
-      setLobbies(active);
-      console.log(active);
-    });
-    */
-
-  console.log(props);
 
   return (
     <>
@@ -200,17 +170,20 @@ let AppView = props => {
       {!props.play ? <></> :
         <>
           <img src={cowboy1}
-            style={{ position: 'absolute', bottom: '55%', left: '60%' }}
+            style={{ position: 'absolute', bottom: '55%', right: '60%' }}
             class="cowboy"
             onClick={() => { setEnemy(0); if (props.shotRequested) setModal(true); }}
           />
           <img src={cowboy1}
-            style={{ position: 'absolute', bottom: '55%', right: '60%' }}
+            style={{ position: 'absolute', bottom: '55%', left: '60%' }}
             class="cowboy"
             onClick={() => { setEnemy(1); if (props.shotRequested) setModal(true); }}
           />
         </>
       }
+
+      <img src={tumbleweed1} style={{ position: 'absolute', top: '35%', left: '20%', transform: 'scale(1.5)', pointerEvents: 'none' }} />
+      <img src={tumbleweed2} style={{ position: 'absolute', top: '45%', right: '20%', transform: 'scale(1.5)', pointerEvents: 'none' }} />
 
       <div style={{ position: 'absolute', bottom: '15%', left: '50%' }}>
         <img src={cowboy1}
@@ -219,6 +192,8 @@ let AppView = props => {
           onClick={() => { setEnemy(2); if (props.shotRequested) setModal(true); }}
         />
       </div>
+
+      {props.play ? <Chat {...props} /> : <></>}
 
       {infoMenu ?
         <div class="info-panel">
@@ -245,29 +220,6 @@ let AppView = props => {
               }}>
               Create Game
             </button>
-            {/*
-            <h3 style={{ textAlign: "center", marginTop: "16px" }}>Active Lobbies</h3>
-            <div style={{ marginTop: "8px", overflow: "auto", display: "flex", flexFlow: "column", maxHeight: "25%" }}>
-              {lobbies.map(x => (x.players < 3 ?
-                <div style={{ marginBottom: "16px" }}>
-                  <p>{x.address}</p>
-                  <p>{x.players} / 3 Players</p>
-                  <button onClick={() => {
-                    if (x.players == 1) {
-                      console.log("attaching bob");
-                      props.attachBob(x.address);
-                    }
-                    else {
-                      console.log("attaching carl");
-                      props.attachCarl(x.address);
-                    }
-                  }}>
-                    Join
-                  </button>
-                </div>
-                : <></>))}
-            </div>
-                */}
             <p>Manual Join:</p>
             <input onChange={e => { console.log(e); setManual(e.target.value); }}></input>
             <button onClick={() => { props.attachBob(manual); }}>
@@ -303,7 +255,7 @@ let AppView = props => {
       <EndingModal user={props.user} enabled={props.outcome != null} outcome={props.outcome} />
     </>
   );
-}                                   
+}
 
 let AskModal = props => {
   const selectedEnemy = props.enemy;
@@ -413,3 +365,30 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+
+
+/* Unfinished Public Lobbies Code
+
+  <h3 style={{ textAlign: "center", marginTop: "16px" }}>Active Lobbies</h3>
+  <div style={{ marginTop: "8px", overflow: "auto", display: "flex", flexFlow: "column", maxHeight: "25%" }}>
+    {lobbies.map(x => (x.players < 3 ?
+      <div style={{ marginBottom: "16px" }}>
+        <p>{x.address}</p>
+        <p>{x.players} / 3 Players</p>
+        <button onClick={() => {
+          if (x.players == 1) {
+            console.log("attaching bob");
+            props.attachBob(x.address);
+          }
+          else {
+            console.log("attaching carl");
+            props.attachCarl(x.address);
+          }
+        }}>
+          Join
+        </button>
+      </div>
+      : <></>))}
+  </div>
+*/
