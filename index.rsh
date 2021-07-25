@@ -75,6 +75,7 @@ export const main = Reach.App(() => {
     closeTo(A, informTimeout);
   }
 
+  //necessary bc spaghetti frontend code
   each([A, B, C], () => {
     interact.log("Play");
   });

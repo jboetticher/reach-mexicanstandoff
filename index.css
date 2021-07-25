@@ -65,3 +65,14 @@ button:hover {
 li {
     margin-bottom: 8px;
 }
+
+.final-box {
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 32px;
+    background-color: rgba(158, 76, 0, 0.8);
+}
+
+.final-box > p {
+    text-align: center;
+}
