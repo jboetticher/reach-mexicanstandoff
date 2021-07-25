@@ -14,10 +14,17 @@ const firestore = firebase.firestore();
 
 
 let Chat = props => {
+  console.log("Chat props: ", props);
+  let [enabled, setEnabled] = useState(true);
   return (
-    <section class="chat">
-      <ChatRoom {...props} />
-    </section>
+    <>
+      <button style={{ fontSize: "12px" }} onClick={() => { setEnabled(!enabled); }}>
+        Toggle Chat
+      </button>
+      <section class="chat" style={{ display: enabled ? "block" : "none" }} >
+        <ChatRoom {...props} />
+      </section>
+    </>
   );
 }
 
@@ -25,9 +32,17 @@ let Chat = props => {
 let ChatRoom = props => {
   const dummy = useRef();
   const messagesRef = firestore.collection('messages');
-  const query = messagesRef.where("address", "==", props.ctcInfoStr).orderBy('createdAt').limit(25);
+
+  // for some reason this where didn't work, so instead we're going to have to do it in the frontend
+  // i increased the limit to 35 from 25 to compensate
+  // TODO: fix this firebase query
+  const query = messagesRef
+    //.where("address", "==", props.ctcInfoStr)
+    .orderBy('createdAt')
+    .limit(35);
 
   const [messages] = useCollectionData(query, { idField: 'id' });
+  console.log("Messages + Query", messages, query);
 
   const [formValue, setFormValue] = useState('');
 
@@ -38,7 +53,7 @@ let ChatRoom = props => {
     await messagesRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      player: props.player,
+      player: props.user,
       address: props.ctcInfoStr
     })
 
@@ -47,9 +62,9 @@ let ChatRoom = props => {
   }
 
   return (<>
-    <div>
+    <div class="chat-message-container">
 
-      {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+      {messages && messages.map(msg => (msg.address == props.ctcInfoStr ? <ChatMessage key={msg.id} message={msg} /> : <></> ))}
 
       <span ref={dummy}></span>
 
@@ -57,7 +72,7 @@ let ChatRoom = props => {
 
     <form onSubmit={sendMessage}>
 
-      <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
+      <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Negotiate here!" />
 
       <button type="submit" disabled={!formValue}>Send</button>
 
@@ -71,7 +86,7 @@ function ChatMessage(props) {
 
   return (<>
     <div className={`message d-flex`}>
-      <p>P{player + 1} {text}</p>
+      <p>P{player + 1}: {text}</p>
     </div>
   </>)
 }

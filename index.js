@@ -33,6 +33,7 @@ class App extends React.Component {
     const balAtomic = await reach.balanceOf(acc);
     const bal = reach.formatCurrency(balAtomic, 4);
     this.setState({ acc, bal });
+    document.title = "Mexican Standoff";
 
     console.log("Component mounted.", this.state);
   }
@@ -79,7 +80,7 @@ class Player extends React.Component {
     const ctc = this.props.acc.attach(backend, JSON.parse(ctcInfoStr));
     console.log(ctc);
     backend.Bob(ctc, this);
-    this.setState({ connected: true, user: 1 });
+    this.setState({ connected: true, user: 1, ctcInfoStr });
 
     this.setState({ status: <><div>Awaiting Players in Lobby:</div><div>{ctcInfoStr}</div></> });
   }
@@ -89,7 +90,7 @@ class Player extends React.Component {
     const ctc = this.props.acc.attach(backend, JSON.parse(ctcInfoStr));
     console.log(ctc);
     backend.Carl(ctc, this);
-    this.setState({ connected: true, user: 2 });
+    this.setState({ connected: true, user: 2, ctcInfoStr });
 
     this.setState({ status: <><div>Awaiting Players in Lobby:</div><div>{ctcInfoStr}</div></> });
   }
@@ -156,6 +157,8 @@ let AppView = props => {
   let [enemy, setEnemy] = useState(0);
   let [modal, setModal] = useState(false);
   let [manual, setManual] = useState();
+
+  console.log("App View props: ", props);
 
   return (
     <>
